@@ -34,7 +34,6 @@
             width: 100%; padding: 12px; background: #ff003c; border: none; color: #fff;
             border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase;
         }
-        .auth-btn:disabled { background: #555; cursor: not-allowed; }
 
         /* Главный Интерфейс */
         header {
@@ -88,7 +87,7 @@
     </style>
 </head>
 <body>
-    <!-- Замок Капчи -->
+    <!-- Замок Капчи (Исправленный вариант) -->
     <div id="auth-overlay">
         <div class="auth-box" id="step-1">
             <h2>Авторизация Лицея</h2>
@@ -96,10 +95,10 @@
             <input type="text" id="reg-class" placeholder="Твой Класс (например, 7А)...">
             <input type="email" id="reg-email" placeholder="Твой e-mail...">
             <div class="captcha-row">
-                <input type="checkbox" id="reg-check" onchange="document.getElementById('send-code-btn').disabled = !this.checked">
+                <input type="checkbox" id="reg-check" checked style="pointer-events: none;">
                 <label for="reg-check" style="font-size: 13px; cursor: pointer;">Я не робот, я из Лицея №37 🧠</label>
             </div>
-            <button class="auth-btn" id="send-code-btn" disabled onclick="sendVerificationCode()">Получить код</button>
+            <button class="auth-btn" id="send-code-btn" onclick="sendVerificationCode()">Получить код</button>
         </div>
         <div class="auth-box" id="step-2" style="display: none;">
             <h2>Введи код</h2>
@@ -132,7 +131,7 @@
             <div class="chat-header">Первый — ИИ-помощник Совета Первых</div>
             <div class="chat-messages" id="ai-messages"></div>
             <div class="chat-input-row">
-                <input type="text" id="ai-input" placeholder="Напиши свой вопрос, бро..."onkeydown="if(event.key==='Enter')sendAiMessage()">
+                <input type="text" id="ai-input" placeholder="Напиши свой вопрос, бро..." onkeydown="if(event.key==='Enter')sendAiMessage()">
                 <button onclick="sendAiMessage()">🛩️</button>
             </div>
         </div>
@@ -203,7 +202,7 @@
                 document.getElementById("auth-overlay").style.display = "none";
                 loadProfile();
             }
-            addBotMessage("Привет от Совета Первых Лицея №37! 👋 Я — твой верный ИИ-помощник. Мой мозг прокачан Радисом! Выбирай тему или пиши вопрос:\n1. Как вступить в Движение?\n2. Че по баллам и ТОП-5?\n3. Выдай шпору по учебе!\n4. База безопасности МЧС ?󈘏");
+            addBotMessage("Привет от Совета Первых Лицея №37! 👋 Я — твой верный ИИ-помощник. Мой мозг прокачан Радисом! Выбирай тему или пиши вопрос:\n1. Как вступить в Движение?\n2. Че по баллам и ТОП-5?\n3. Выдай шпору по учебе!\n4. База безопасности МЧС 🛡️");
         };
 
         function sendVerificationCode() {
@@ -294,7 +293,8 @@
                 // Пасхалка
                 if(txt.includes("сикс севен") || txt.includes("six seven")) {
                     addBotMessage("ЧЕРЕМША! 🌿 Секретный мем Радиса активирован!");
-                    return;}
+                    return;
+                }
 
                 // База знаний ИИ
                 if(txt.includes("движен") || txt.includes("перв")) {
