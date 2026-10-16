@@ -4,57 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Лицей-Сеть №37 | Совет Первых</title>
-    <!-- Подключаем EmailJS -->
-    <script src="https://jsdelivr.net"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background-color: #0c0c0c; color: #ffffff; overflow-x: hidden; }
-        
-        /* Капча-Шторка при входе */
-        #auth-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(12, 12, 12, 0.95); backdrop-filter: blur(15px);
-            display: flex; justify-content: center; align-items: center; z-index: 999999;
-            transition: opacity 0.5s ease;
-        }
-        .auth-box {
-            background: #1a1a1a; padding: 30px; border-radius: 12px;
-            border: 2px solid #ff003c; width: 360px; box-shadow: 0 0 20px #ff003c;
-            text-align: center;
-        }
-        .auth-box h2 { color: #ff003c; margin-bottom: 20px; font-size: 22px; text-transform: uppercase; }
-        .auth-box input {
-            width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px;
-            border: 1px solid #333; background: #111; color: #fff; outline: none;
-        }
-        .auth-box input:focus { border-color: #ff003c; }
-        .captcha-row { display: flex; align-items: center; justify-content: center; margin-bottom: 15px; gap: 10px; }
-        .captcha-row input[type="checkbox"] { width: 20px; height: 20px; margin: 0; cursor: pointer; }
-        .auth-btn {
-            width: 100%; padding: 12px; background: #ff003c; border: none; color: #fff;
-            border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase;
-        }
-
-        /* Главный Интерфейс */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 25px; background: #111; border-bottom: 2px solid #ff003c;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #111; border-bottom: 2px solid #ff003c; }
         .logo { font-size: 20px; font-weight: bold; color: #ff003c; text-transform: uppercase; }
-        .profile-badge {
-            display: flex; align-items: center; gap: 10px; cursor: pointer;
-            padding: 5px 10px; border-radius: 20px; border: 1px solid #ff003c;
-        }
+        .profile-badge { display: flex; align-items: center; gap: 10px; padding: 5px 10px; border-radius: 20px; border: 1px solid #ff003c; }
         .avatar { width: 35px; height: 35px; border-radius: 50%; background: #333; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 1px solid #ff003c; }
-
-        /* Сетка вкладок */
         .tabs { display: flex; justify-content: center; background: #161616; border-bottom: 1px solid #222; }
         .tab-btn { padding: 15px 25px; background: none; border: none; color: #888; cursor: pointer; font-size: 14px; text-transform: uppercase; }
         .tab-btn.active { color: #ff003c; border-bottom: 2px solid #ff003c; font-weight: bold; }
         .tab-content { display: none; padding: 20px; max-width: 800px; margin: 0 auto; }
         .tab-content.active { display: block; }
-
-        /* Чат ИИ Помощника */
         .chat-container { background: #161616; border: 1px solid #ff003c; border-radius: 8px; height: 450px; display: flex; flex-direction: column; }
         .chat-header { background: #ff003c; padding: 10px; font-weight: bold; text-align: center; }
         .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
@@ -64,21 +25,12 @@
         .chat-input-row { display: flex; padding: 10px; background: #111; border-top: 1px solid #222; }
         .chat-input-row input { flex: 1; padding: 10px; background: #222; border: 1px solid #333; color: #fff; border-radius: 4px; outline: none; }
         .chat-input-row button { padding: 10px 20px; background: #ff003c; border: none; color: #fff; margin-left: 10px; border-radius: 4px; cursor: pointer; }
-
-        /* Кнопка МЧС */
         .mchs-btn { width: 100%; padding: 15px; background: #d32f2f; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 0 10px #d32f2f; }
-        
-        /* Модалка МЧС */
-        #mchs-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 1000000;
-        }
+        #mchs-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 1000000; }
         .mchs-box { background: #1a1a1a; border: 3px solid #d32f2f; padding: 25px; border-radius: 8px; max-width: 500px; width: 90%; }
         .mchs-box h3 { color: #d32f2f; margin-bottom: 15px; text-transform: uppercase; text-align: center; }
         .mchs-box ol { padding-left: 20px; margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
         .mchs-box li { margin-bottom: 8px; }
-
-        /* Баллы и Мероприятия */
         .card { background: #161616; padding: 20px; border-radius: 8px; border: 1px solid #222; margin-bottom: 15px; }
         .card h3 { color: #ff003c; margin-bottom: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -87,56 +39,29 @@
     </style>
 </head>
 <body>
-    <!-- Замок Капчи (Исправленный вариант) -->
-    <div id="auth-overlay">
-        <div class="auth-box" id="step-1">
-            <h2>Авторизация Лицея</h2>
-            <input type="text" id="reg-name" placeholder="Твое Имя...">
-            <input type="text" id="reg-class" placeholder="Твой Класс (например, 7А)...">
-            <input type="email" id="reg-email" placeholder="Твой e-mail...">
-            <div class="captcha-row">
-                <input type="checkbox" id="reg-check" checked style="pointer-events: none;">
-                <label for="reg-check" style="font-size: 13px; cursor: pointer;">Я не робот, я из Лицея №37 🧠</label>
-            </div>
-            <button class="auth-btn" id="send-code-btn" onclick="sendVerificationCode()">Получить код</button>
-        </div>
-        <div class="auth-box" id="step-2" style="display: none;">
-            <h2>Введи код</h2>
-            <p style="font-size: 13px; color: #888; margin-bottom: 15px;">Мы отправили 4-значный код безопасности на вашу почту.</p>
-            <input type="text" id="verify-code-input" placeholder="Введите код из письма..." maxlength="4" style="text-align: center; font-size: 20px; letter-spacing: 5px;">
-            <button class="auth-btn" onclick="checkVerificationCode()">Подтвердить код</button>
-        </div>
-    </div>
-
-    <!-- Шапка -->
     <header>
         <div class="logo">Лицей-Сеть №37</div>
         <div class="profile-badge">
             <div class="avatar" id="user-avatar">👤</div>
-            <span id="user-display-name">Ученик</span>
+            <span id="user-display-name">Лицеист</span>
         </div>
     </header>
-
-    <!-- Вкладки -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('tab-ai')">Помощник ИИ</button>
+        <button class="tab-btn active" onclick="switchTab('tab-ai')">Помощник ИИ (Глобальная База)</button>
         <button class="tab-btn" onclick="switchTab('tab-events')">Баллы и События</button>
         <button class="tab-btn" onclick="switchTab('tab-chat')">Чат Школы</button>
     </div>
-
-    <!-- Контент Вкладок -->
     <div id="tab-ai" class="tab-content active">
         <button class="mchs-btn" onclick="document.getElementById('mchs-modal').style.display='flex'">🛡️ БЕЗОПАСНОСТЬ СЕТИ И МЧС</button>
         <div class="chat-container">
             <div class="chat-header">Первый — ИИ-помощник Совета Первых</div>
             <div class="chat-messages" id="ai-messages"></div>
             <div class="chat-input-row">
-                <input type="text" id="ai-input" placeholder="Напиши свой вопрос, бро..." onkeydown="if(event.key==='Enter')sendAiMessage()">
+                <input type="text" id="ai-input" placeholder="Задай вопрос огромной базе данных..." onkeydown="if(event.key==='Enter')sendAiMessage()">
                 <button onclick="sendAiMessage()">🛩️</button>
             </div>
         </div>
     </div>
-
     <div id="tab-events" class="tab-content">
         <div class="card">
             <h3>🏆 ТОП-5 Активистов Лицея</h3>
@@ -145,187 +70,113 @@
                 <tr><td>1</td><td>Марат Сафин</td><td>9Б</td><td>420</td></tr>
                 <tr><td>2</td><td>Анна Кузнецова</td><td>8А</td><td>390</td></tr>
                 <tr><td>3</td><td>Тимур Хайруллин</td><td>7В</td><td>350</td></tr>
-                <tr><td>4</td><td>Диана Гареева</td><td>9А</td><td>310</td></tr>
-                <tr><td>5</td><td>Илья Новиков</td><td>7А</td><td>290</td></tr>
             </table>
         </div>
-        <div class="card">
-            <h3>📅 Календарь Мероприятий</h3>
-            <p>• 22 октября — Сбор макулатуры "ЭкоЛицей"</p>
-            <p style="margin-top: 8px;">• 30 октября — Осенний Лицейский Бал и Дискотека 🎃</p>
-            <p style="margin-top: 8px;">• 12 ноября — Школьный Хакатон по IT и ИИ разработками</p>
-        </div>
     </div>
-
     <div id="tab-chat" class="tab-content">
         <div class="chat-container">
             <div class="chat-header">Общий чат лицеистов (Тестовый режим)</div>
             <div class="chat-messages" id="school-messages">
-                <div class="msg bot"><b>Модератор:</b> Чат запущен в безопасном локальном режиме! Нажимайте шестеренку ⚙️ возле сообщений для тестов блокировок.</div>
+                <div class="msg bot"><b>Модератор:</b> Чат активен! Нажимайте ⚙️ для тестов.</div>
             </div>
             <div class="chat-input-row">
-                <input type="text" id="school-input" placeholder="Напиши сообщение в общую ленту..." onkeydown="if(event.key==='Enter')sendSchoolMessage()">
+                <input type="text" id="school-input" placeholder="Напиши в чат..." onkeydown="if(event.key==='Enter')sendSchoolMessage()">
                 <button onclick="sendSchoolMessage()">Отправить</button>
             </div>
         </div>
     </div>
-
-    <!-- Модалка МЧС -->
     <div id="mchs-modal">
         <div class="mchs-box">
             <h3>Регламент безопасности МЧС Татарстана</h3>
             <ol>
-                <li>При звуках сирены "Внимание всем!" в Нижнекамске немедленно зайдите в класс.</li>
-                <li>Слушайте объявления по громкоговорителям администрации лицея.</li>
-                <li>При эвакуации спокойно спускайтесь на цокольный этаж (подвальное укрытия).</li>
-                <li>В случае угрозы атаки БПЛА держитесь дальше от окон и внешних стен здания.</li>
-                <li>При обнаружении обломков дронов КАТЕГОРИЧЕСКИ запрещено к ним подходить или трогать!</li>
-                <li>Сделайте фото обломков с безопасного расстояния и покажите охране или учителю.</li>
-                <li>Не распространяйте панику и фейковые сообщения в сторонних мессенджерах.</li>
-                <li>Всегда доверяйте только верифицированной информации от ИИ-помощника Совета Первых.</li>
-                <li>При обнаружении посторонних лиц на территории лицея срочно сообщите дежурному.</li>
-                <li>В любой чрезвычайной ситуации звоните на единый номер спасения 112.</li>
+                <li>При звуках сирены в Нижнекамске пройдите в укрытие на цокольный этаж.</li>
+                <li>Обломки дронов и БПЛА руками строго запрещено трогать! Звоните 112.</li>
             </ol>
-            <button class="auth-btn" style="background:#333;" onclick="document.getElementById('mchs-modal').style.display='none'">Закрыть регламент</button>
+            <button class="auth-btn" style="background:#333;" onclick="document.getElementById('mchs-modal').style.display='none'">Закрыть</button>
         </div>
     </div>
     <script>
-        // Инициализируем EmailJS твоими ключами
-        emailjs.init("lOTPgmt2mvSKG8G6FA");
-
-        let generatedCode = "";
-        let userData = { name: "", uClass: "", email: "" };
-
-        // Проверка вечной авторизации
+        let megaDatabase = {};
         window.onload = function() {
-            if(localStorage.getItem("auth_status") === "logged_in") {
-                document.getElementById("auth-overlay").style.display = "none";
-                loadProfile();
-            }
-            addBotMessage("Привет от Совета Первых Лицея №37! 👋 Я — твой верный ИИ-помощник. Мой мозг прокачан Радисом! Выбирай тему или пиши вопрос:\n1. Как вступить в Движение?\n2. Че по баллам и ТОП-5?\n3. Выдай шпору по учебе!\n4. База безопасности МЧС 🛡️");
+            fetch('database.json')
+                .then(res => res.json())
+                .then(data => { 
+                    megaDatabase = data; 
+                    console.log("Успешно подключено к базе данных!"); 
+                })
+                .catch(err => console.log("Ошибка загрузки базы: ", err));
+            addBotMessage("Привет от Совета Первых Лицея №37! 👋 Я подключен к глобальному файлу базы данных. Мой мозг готов выдать любую шпору по ОГЭ, формулы алгебры, геометрии, правила русского или регламенты безопасности МЧС 🛡️ Задай свой вопрос!");
         };
-
-        function sendVerificationCode() {
-            const name = document.getElementById("reg-name").value.trim();
-            const uClass = document.getElementById("reg-class").value.trim();
-            const email = document.getElementById("reg-email").value.trim();
-
-            if(!name || !uClass || !email) { alert("Заполни все поля, бро!"); return; }
-
-            userData = { name, uClass, email };
-            generatedCode = Math.floor(1000 + Math.random() * 9000).toString();
-
-            // Шлем код через твой EmailJS
-            emailjs.send("service_ijne16b", "template_kpb1fld", {
-                to_name: name,
-                user_class: uClass,
-                to_email: email,
-                secret_code: generatedCode
-            }).then(() => {
-                document.getElementById("step-1").style.display = "none";
-                document.getElementById("step-2").style.display = "block";
-            }).catch((err) => {
-                alert("Ошибка отправки! Проверь правильность почты.");
-                console.log(err);
-            });
-        }
-
-        function checkVerificationCode() {
-            const inputCode = document.getElementById("verify-code-input").value.trim();
-            if(inputCode === generatedCode) {
-                localStorage.setItem("auth_status", "logged_in");
-                localStorage.setItem("user_name", userData.name);
-                localStorage.setItem("user_class", userData.uClass);
-                
-                document.getElementById("auth-overlay").style.opacity = "0";
-                setTimeout(() => {
-                    document.getElementById("auth-overlay").style.display = "none";
-                    loadProfile();
-                }, 500);
-            } else {
-                alert("Код неверный! Проверь письмо ещё раз.");
-            }
-        }
-
-        function loadProfile() {
-            const name = localStorage.getItem("user_name") || "Ученик";
-            const uClass = localStorage.getItem("user_class") || "7А";
-            document.getElementById("user-display-name").innerText = `${name} [${uClass}]`;
-            document.getElementById("user-avatar").innerText = name.charAt(0).toUpperCase();
-        }
-
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             event.target.classList.add('active');
         }
-
-        // Логика чата ИИ
         function addBotMessage(text) {
             const box = document.getElementById("ai-messages");
-            const m = document.createElement("div");
-            m.className = "msg bot";
-            m.innerText = text;
-            box.appendChild(m);
+            const m = document.createElement("div"); 
+            m.className = "msg bot"; 
+            m.innerText = text; 
+            box.appendChild(m); 
             box.scrollTop = box.scrollHeight;
         }
-
         function sendAiMessage() {
             const inp = document.getElementById("ai-input");
             const txt = inp.value.trim().toLowerCase();
             if(!txt) return;
-
             const box = document.getElementById("ai-messages");
-            const m = document.createElement("div");
-            m.className = "msg user";
-            m.innerText = inp.value;
-            box.appendChild(m);
+            const m = document.createElement("div"); 
+            m.className = "msg user"; 
+            m.innerText = inp.value; 
+            box.appendChild(m); 
             inp.value = "";
-
             setTimeout(() => {
-                // Фильтр матов
-                if(txt.includes("бля") || txt.includes("хуй") || txt.includes("пизд") || txt.includes("еб")) {
-                    addBotMessage("Так, давай общаться культурно и на уважении. Мы в Лицее №37, а не в токсичном лобби Доты. За мат баллы в ТОП-5 не начисляются! 🤫");
+                if(txt.includes("бля") || txt.includes("хуй") || txt.includes("пизд")) {
+                    addBotMessage("Мат на платформе Совета Первых строго запрещен! Давайте общаться культурно."); 
                     return;
                 }
-                
-                // Пасхалка
-                if(txt.includes("сикс севен") || txt.includes("six seven")) {
-                    addBotMessage("ЧЕРЕМША! 🌿 Секретный мем Радиса активирован!");
-                    return;
-                }
-
-                // База знаний ИИ
-                if(txt.includes("движен") || txt.includes("перв")) {
-                    addBotMessage("Чтобы вступить в Движение Первых в нашем лицее, обратись к Радису или Динаре в кабинете Совета. У нас проходят крутые акции, хакатоны и за это начисляются баллы активиста!");
-                } else if(txt.includes("балл") || txt.includes("топ")) {
-                    document.querySelector("[onclick=\"switchTab('tab-events')\"]").click();
-                    addBotMessage("Открыл тебе вкладку баллов! Посмотри текущую таблицу ТОП-5 лидеров лицея. Копи баллы за активную помощь школе!");
-                } else if(txt.includes("мчс") || txt.includes("безопасн") || txt.includes("сирен") || txt.includes("бпла")) {
-                    document.getElementById('mchs-modal').style.display='flex';
-                    addBotMessage("ВНИМАНИЕ! Вывел на экран официальный регламент МЧС гражданской обороны для Нижнекамска. Ознакомься прямо сейчас!");
-                } else if(txt.includes("шпор") || txt.includes("учеб") || txt.includes("матеш") || txt.includes("дискрим")) {
-                    addBotMessage("Лови мини-шпору по матеше для 7-8 классов: Дискриминант D = b² - 4ac. Если D > 0, то уравнения имеют 2 корня: x = (-b ± √D) / 2a. Учись прилежно, бро!");
+                if(megaDatabase.algebra_oge_full_database && (txt.includes("дискрим") || txt.includes("уравнен"))) {
+                    addBotMessage(megaDatabase.algebra_oge_full_database.quadratic_equation_rules + "\n\n" + megaDatabase.algebra_oge_full_database.discriminant_positive_case);
+                } else if(megaDatabase.algebra_oge_full_database && txt.includes("виет")) {
+                    addBotMessage(megaDatabase.algebra_oge_full_database.vieta_theorem_full_description);
+                } else if(megaDatabase.algebra_oge_full_database && (txt.includes("шпор") || txt.includes("фсу") || txt.includes("квадрат"))) {
+                    addBotMessage(megaDatabase.algebra_oge_full_database.fsu_difference_of_squares);
+                } else if(megaDatabase.algebra_oge_full_database && txt.includes("прогресс")) {
+                    addBotMessage(megaDatabase.algebra_oge_full_database.arithmetic_progression_definition + "\n\n" + megaDatabase.algebra_oge_full_database.arithmetic_progression_nth_term);
+                } else if(megaDatabase.geometry_oge_full_database && (txt.includes("пифагор") || txt.includes("гипотенуз") || txt.includes("катет"))) {
+                    addBotMessage(megaDatabase.geometry_oge_full_database.pythagorean_theorem_details + "\n\n" + megaDatabase.geometry_oge_full_database.pythagorean_theorem_sides);
+                } else if(megaDatabase.geometry_oge_full_database && (txt.includes("площад") || txt.includes("треугол") || txt.includes("трапец"))) {
+                    addBotMessage(megaDatabase.geometry_oge_full_database.triangle_area_general_formula + "\n\n" + megaDatabase.geometry_oge_full_database.trapezoid_area_calculation);
+                } else if(megaDatabase.geometry_oge_full_database && (txt.includes("синус") || txt.includes("косинус") || txt.includes("тригоном"))) {
+                    addBotMessage(megaDatabase.geometry_oge_full_database.sine_angle_definition + "\n\n" + megaDatabase.geometry_oge_full_database.basic_trigonometric_identity);
+                } else if(megaDatabase.oge_russian_language_vault && (txt.includes("корен") || txt.includes("чередов") || txt.includes("гар") || txt.includes("гор"))) {
+                    addBotMessage(megaDatabase.oge_russian_language_vault.roots_alternation_rules + "\n\n" + megaDatabase.oge_russian_language_vault.root_gar_gor_rule + "\n\n" + megaDatabase.oge_russian_language_vault.root_rast_rasch_ros_rule);
+                } else if(megaDatabase.oge_russian_language_vault && (txt.includes("запят") || txt.includes("причаст") || txt.includes("деепричаст"))) {
+                    addBotMessage(megaDatabase.oge_russian_language_vault.punctuation_comma_rules + "\n\n" + megaDatabase.oge_russian_language_vault.participle_turn_commas);
+                } else if(megaDatabase.physics_formulas_oge_vault && (txt.includes("физик") || txt.includes("ньютон") || txt.includes("закон"))) {
+                    addBotMessage(megaDatabase.physics_formulas_oge_vault.newtons_first_law + "\n\n" + megaDatabase.physics_formulas_oge_vault.newtons_second_law + "\n\n" + megaDatabase.physics_formulas_oge_vault.newtons_third_law);
+                } else if(megaDatabase.physics_formulas_oge_vault && (txt.includes("ом") || txt.includes("ток") || txt.includes("сопротивл"))) {
+                    addBotMessage(megaDatabase.physics_formulas_oge_vault.ohm_law_for_circuit + "\n\n" + megaDatabase.physics_formulas_oge_vault.electrical_resistance);
+                } else if(megaDatabase.oge_social_studies_vault && (txt.includes("обществ") || txt.includes("государств") || txt.includes("демократ") || txt.includes("закон"))) {
+                    addBotMessage(megaDatabase.oge_social_studies_vault.state_definition_info + "\n\n" + megaDatabase.oge_social_studies_vault.state_main_features + "\n\n" + megaDatabase.oge_social_studies_vault.democracy_features);
+                } else if(megaDatabase.oge_social_studies_vault && (txt.includes("эконом") || txt.includes("рынок") || txt.includes("инфляц"))) {
+                    addBotMessage(megaDatabase.oge_social_studies_vault.economic_systems_info + "\n\n" + megaDatabase.oge_social_studies_vault.market_economy_features + "\n\n" + megaDatabase.oge_social_studies_vault.inflation_definition);
+                } else if(megaDatabase.oge_geography_vault && (txt.includes("географ") || txt.includes("координат") || txt.includes("широт") || txt.includes("долгот"))) {
+                    addBotMessage(megaDatabase.oge_geography_vault.geographic_coordinates + "\n\n" + megaDatabase.oge_geography_vault.latitude_definition + "\n\n" + megaDatabase.oge_geography_vault.longitude_definition);
+                } else if(megaDatabase.oge_geography_vault && (txt.includes("время") || txt.includes("пояс") || txt.includes("карт") || txt.includes("масштаб"))) {
+                    addBotMessage(megaDatabase.oge_geography_vault.scale_map_types + "\n\n" + megaDatabase.oge_geography_vault.time_zones_russia + "\n\n" + megaDatabase.oge_geography_vault.time_zones_calculation);
+                } else if(megaDatabase.emergency_mchs_protocol && (txt.includes("мчс") || txt.includes("сирен") || txt.includes("бпла") || txt.includes("тревог"))) {
+                    addBotMessage(megaDatabase.emergency_mchs_protocol.civil_defense_alert + "\n" + megaDatabase.emergency_mchs_protocol.evacuation_protocol + "\n" + megaDatabase.emergency_mchs_protocol.uav_danger_actions + "\n" + megaDatabase.emergency_mchs_protocol.uav_fragments_ban + "\nВызов экстренных служб: " + megaDatabase.emergency_mchs_protocol.emergency_call_112);
                 } else {
-                    addBotMessage("Запрос принят! Я ещё учусь и моя база постоянно расширяется Радисом, но я точно знаю про Движение Первых, баллы ТОП-5, шпоры и регламенты безопасности МЧС 🛡️");
+                    addBotMessage("Запрос принят! Сканирую базу данных database.json... Для точного ответа используй ключевые слова: дискриминант, теорема виета, Пифагор, площадь, синус, корни, запятые, законы Ньютона, закон Ома, государство, рынок, координаты, масштаб или МЧС 🛡️");
                 }
-            }, 600);
+            }, 500);
         }
-
-        // Локальный чат школы
         function sendSchoolMessage() {
-            const inp = document.getElementById("school-input");
-            const txt = inp.value.trim();
-            if(!txt) return;
-
-            const box = document.getElementById("school-messages");
-            const m = document.createElement("div");
-            m.className = "msg user";
-            m.innerHTML = `<b>${localStorage.getItem("user_name") || "Я"}:</b> ${txt} <span style="cursor:pointer;margin-left:8px;color:#888;" onclick="alert('Пользователь заблокирован! Его сообщения скрыты.')">⚙️</span>`;
-            box.appendChild(m);
-            inp.value = "";
-            box.scrollTop = box.scrollHeight;
+            const inp = document.getElementById("school-input"); const txt = inp.value.trim(); if(!txt) return;
+            const box = document.getElementById("school-messages"); const m = document.createElement("div"); m.className = "msg user";
+            m.innerHTML = `<b>Ученик:</b> ${txt}`; box.appendChild(m); inp.value = ""; box.scrollTop = box.scrollHeight;
         }
     </script>
 </body>
