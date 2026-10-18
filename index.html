@@ -3,96 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лицей-Сеть №37 | Совет Первых</title>
+    <title>Лицей-Сеть №37</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #0c0c0c; color: #ffffff; overflow-x: hidden; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #111; border-bottom: 2px solid #ff003c; }
-        .logo { font-size: 20px; font-weight: bold; color: #ff003c; text-transform: uppercase; }
-        .profile-badge { display: flex; align-items: center; gap: 10px; padding: 5px 10px; border-radius: 20px; border: 1px solid #ff003c; }
-        .avatar { width: 35px; height: 35px; border-radius: 50%; background: #333; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 1px solid #ff003c; }
-        .tabs { display: flex; justify-content: center; background: #161616; border-bottom: 1px solid #222; }
-        .tab-btn { padding: 15px 25px; background: none; border: none; color: #888; cursor: pointer; font-size: 14px; text-transform: uppercase; }
+        body { background-color: #0c0c0c; color: #ffffff; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #111; border-bottom: 2px solid #ff003c; }
+        .logo { font-size: 18px; font-weight: bold; color: #ff003c; text-transform: uppercase; }
+        .tabs { display: flex; justify-content: center; background: #161616; }
+        .tab-btn { padding: 12px 20px; background: none; border: none; color: #888; cursor: pointer; font-size: 13px; text-transform: uppercase; }
         .tab-btn.active { color: #ff003c; border-bottom: 2px solid #ff003c; font-weight: bold; }
-        .tab-content { display: none; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .tab-content { display: none; padding: 15px; max-width: 600px; margin: 0 auto; }
         .tab-content.active { display: block; }
-        .chat-container { background: #161616; border: 1px solid #ff003c; border-radius: 8px; height: 450px; display: flex; flex-direction: column; }
-        .chat-header { background: #ff003c; padding: 10px; font-weight: bold; text-align: center; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 10px 14px; border-radius: 8px; max-width: 80%; line-height: 1.4; }
-        .msg.bot { background: #222; align-self: flex-start; border-left: 3px solid #ff003c; }
+        .chat-container { background: #161616; border: 1px solid #ff003c; border-radius: 8px; height: 400px; display: flex; flex-direction: column; }
+        .chat-header { background: #ff003c; padding: 10px; font-weight: bold; text-align: center; font-size: 14px; }
+        .chat-messages { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .msg { padding: 8px 12px; border-radius: 8px; max-width: 85%; font-size: 14px; line-height: 1.4; }
+        .msg.bot { background: #222; align-self: flex-start; border-left: 3px solid #ff003c; white-space: pre-line; }
         .msg.user { background: #ff003c; align-self: flex-end; }
-        .chat-input-row { display: flex; padding: 10px; background: #111; border-top: 1px solid #222; }
+        .chat-input-row { display: flex; padding: 8px; background: #111; }
         .chat-input-row input { flex: 1; padding: 10px; background: #222; border: 1px solid #333; color: #fff; border-radius: 4px; outline: none; }
-        .chat-input-row button { padding: 10px 20px; background: #ff003c; border: none; color: #fff; margin-left: 10px; border-radius: 4px; cursor: pointer; }
-        .mchs-btn { width: 100%; padding: 15px; background: #d32f2f; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 0 10px #d32f2f; }
-        #mchs-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 1000000; }
-        .mchs-box { background: #1a1a1a; border: 3px solid #d32f2f; padding: 25px; border-radius: 8px; max-width: 500px; width: 90%; }
-        .mchs-box h3 { color: #d32f2f; margin-bottom: 15px; text-transform: uppercase; text-align: center; }
-        .mchs-box ol { padding-left: 20px; margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
-        .mchs-box li { margin-bottom: 8px; }
-        .card { background: #161616; padding: 20px; border-radius: 8px; border: 1px solid #222; margin-bottom: 15px; }
-        .card h3 { color: #ff003c; margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #222; }
-        th { color: #ff003c; }
+        .chat-input-row button { padding: 10px 15px; background: #ff003c; border: none; color: #fff; margin-left: 8px; border-radius: 4px; cursor: pointer; }
+        .mchs-btn { width: 100%; padding: 12px; background: #d32f2f; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-bottom: 15px; }
+        #mchs-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .mchs-box { background: #1a1a1a; border: 2px solid #d32f2f; padding: 20px; border-radius: 8px; width: 90%; max-width: 450px; }
+        .mchs-box h3 { color: #d32f2f; margin-bottom: 10px; text-transform: uppercase; font-size: 16px; }
+        .mchs-box p { font-size: 13px; line-height: 1.5; margin-bottom: 15px; }
+        .card { background: #161616; padding: 15px; border-radius: 8px; border: 1px solid #222; }
+        .card h3 { color: #ff003c; margin-bottom: 8px; font-size: 16px; }
+        table { width: 100%; font-size: 13px; text-align: left; }
+        th, td { padding: 8px; border-bottom: 1px solid #222; }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo">Лицей-Сеть №37</div>
-        <div class="profile-badge">
-            <div class="avatar" id="user-avatar">👤</div>
-            <span id="user-display-name">Лицеист</span>
-        </div>
-    </header>
+    <header><div class="logo">Лицей-Сеть №37</div></header>
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('tab-ai')">Помощник ИИ (Глобальная База)</button>
-        <button class="tab-btn" onclick="switchTab('tab-events')">Баллы и События</button>
-        <button class="tab-btn" onclick="switchTab('tab-chat')">Чат Школы</button>
+        <button class="tab-btn active" onclick="switchTab('tab-ai')">ИИ Помощник</button>
+        <button class="tab-btn" onclick="switchTab('tab-events')">События</button>
     </div>
     <div id="tab-ai" class="tab-content active">
-        <button class="mchs-btn" onclick="document.getElementById('mchs-modal').style.display='flex'">🛡️ БЕЗОПАСНОСТЬ СЕТИ И МЧС</button>
+        <button class="mchs-btn" onclick="document.getElementById('mchs-modal').style.display='flex'">🛡️ РЕГЛАМЕНТ МЧС</button>
         <div class="chat-container">
-            <div class="chat-header">Первый — ИИ-помощник Совета Первых</div>
+            <div class="chat-header">Первый — Экспресс-Поиск по Базе Знаний</div>
             <div class="chat-messages" id="ai-messages"></div>
             <div class="chat-input-row">
-                <input type="text" id="ai-input" placeholder="Задай вопрос огромной базе данных..." onkeydown="if(event.key==='Enter')sendAiMessage()">
+                <input type="text" id="ai-input" placeholder="Напиши: дискриминант, пифагор, мчс..." onkeydown="if(event.key==='Enter')sendAiMessage()">
                 <button onclick="sendAiMessage()">🛩️</button>
             </div>
         </div>
     </div>
     <div id="tab-events" class="tab-content">
         <div class="card">
-            <h3>🏆 ТОП-5 Активистов Лицея</h3>
+            <h3>🏆 ТОП Активистов</h3>
             <table>
-                <tr><th>Место</th><th>Имя</th><th>Класс</th><th>Баллы</th></tr>
-                <tr><td>1</td><td>Марат Сафин</td><td>9Б</td><td>420</td></tr>
-                <tr><td>2</td><td>Анна Кузнецова</td><td>8А</td><td>390</td></tr>
-                <tr><td>3</td><td>Тимур Хайруллин</td><td>7В</td><td>350</td></tr>
+                <tr><th>Место</th><th>Класс</th><th>Баллы</th></tr>
+                <tr><td>1</td><td>9Б</td><td>420</td></tr>
+                <tr><td>2</td><td>8А</td><td>390</td></tr>
             </table>
-        </div>
-    </div>
-    <div id="tab-chat" class="tab-content">
-        <div class="chat-container">
-            <div class="chat-header">Общий чат лицеистов (Тестовый режим)</div>
-            <div class="chat-messages" id="school-messages">
-                <div class="msg bot"><b>Модератор:</b> Чат активен! Нажимайте ⚙️ для тестов.</div>
-            </div>
-            <div class="chat-input-row">
-                <input type="text" id="school-input" placeholder="Напиши в чат..." onkeydown="if(event.key==='Enter')sendSchoolMessage()">
-                <button onclick="sendSchoolMessage()">Отправить</button>
-            </div>
         </div>
     </div>
     <div id="mchs-modal">
         <div class="mchs-box">
-            <h3>Регламент безопасности МЧС Татарстана</h3>
-            <ol>
-                <li>При звуках сирены в Нижнекамске пройдите в укрытие на цокольный этаж.</li>
-                <li>Обломки дронов и БПЛА руками строго запрещено трогать! Звоните 112.</li>
-            </ol>
-            <button class="auth-btn" style="background:#333;" onclick="document.getElementById('mchs-modal').style.display='none'">Закрыть</button>
+            <h3>МЧС Нижнекамск</h3>
+            <p>При звуках сирены пройдите в укрытие на цокольный этаж. Обломки БПЛА руками не трогать! Единый номер — 112.</p>
+            <button onclick="document.getElementById('mchs-modal').style.display='none'" style="width:100%; padding:10px; background:#333; color:#fff; border:none; border-radius:4px; cursor:pointer;">Закрыть</button>
         </div>
     </div>
     <script>
@@ -100,12 +73,9 @@
         window.onload = function() {
             fetch('database.json')
                 .then(res => res.json())
-                .then(data => { 
-                    megaDatabase = data; 
-                    console.log("Успешно подключено к базе данных!"); 
-                })
-                .catch(err => console.log("Ошибка загрузки базы: ", err));
-            addBotMessage("Привет от Совета Первых Лицея №37! 👋 Я подключен к глобальному файлу базы данных. Мой мозг готов выдать любую шпору по ОГЭ, формулы алгебры, геометрии, правила русского или регламенты безопасности МЧС 🛡️ Задай свой вопрос!");
+                .then(data => { megaDatabase = data; })
+                .catch(err => console.log("Ошибка: ", err));
+            addBotMessage("Привет! Я — ИИ-помощник. Мой движок оптимизирован Радисом, лаги устранены! ⚡\nНапиши ключевое слово (например: дискриминант, пифагор, косинус, корни, ом, мчс), и я мгновенно выдам шпору!");
         };
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -115,68 +85,27 @@
         }
         function addBotMessage(text) {
             const box = document.getElementById("ai-messages");
-            const m = document.createElement("div"); 
-            m.className = "msg bot"; 
-            m.innerText = text; 
-            box.appendChild(m); 
-            box.scrollTop = box.scrollHeight;
+            const m = document.createElement("div"); m.className = "msg bot"; m.innerText = text; box.appendChild(m); box.scrollTop = box.scrollHeight;
         }
         function sendAiMessage() {
-            const inp = document.getElementById("ai-input");
-            const txt = inp.value.trim().toLowerCase();
-            if(!txt) return;
-            const box = document.getElementById("ai-messages");
-            const m = document.createElement("div"); 
-            m.className = "msg user"; 
-            m.innerText = inp.value; 
-            box.appendChild(m); 
-            inp.value = "";
+            const inp = document.getElementById("ai-input"); const txt = inp.value.trim().toLowerCase(); if(!txt) return;
+            const box = document.getElementById("ai-messages"); const m = document.createElement("div"); m.className = "msg user"; m.innerText = inp.value; box.appendChild(m); inp.value = "";
             setTimeout(() => {
-                if(txt.includes("бля") || txt.includes("хуй") || txt.includes("пизд")) {
-                    addBotMessage("Мат на платформе Совета Первых строго запрещен! Давайте общаться культурно."); 
-                    return;
-                }
-                if(megaDatabase.algebra_oge_full_database && (txt.includes("дискрим") || txt.includes("уравнен"))) {
-                    addBotMessage(megaDatabase.algebra_oge_full_database.quadratic_equation_rules + "\n\n" + megaDatabase.algebra_oge_full_database.discriminant_positive_case);
-                } else if(megaDatabase.algebra_oge_full_database && txt.includes("виет")) {
-                    addBotMessage(megaDatabase.algebra_oge_full_database.vieta_theorem_full_description);
-                } else if(megaDatabase.algebra_oge_full_database && (txt.includes("шпор") || txt.includes("фсу") || txt.includes("квадрат"))) {
-                    addBotMessage(megaDatabase.algebra_oge_full_database.fsu_difference_of_squares);
-                } else if(megaDatabase.algebra_oge_full_database && txt.includes("прогресс")) {
-                    addBotMessage(megaDatabase.algebra_oge_full_database.arithmetic_progression_definition + "\n\n" + megaDatabase.algebra_oge_full_database.arithmetic_progression_nth_term);
-                } else if(megaDatabase.geometry_oge_full_database && (txt.includes("пифагор") || txt.includes("гипотенуз") || txt.includes("катет"))) {
-                    addBotMessage(megaDatabase.geometry_oge_full_database.pythagorean_theorem_details + "\n\n" + megaDatabase.geometry_oge_full_database.pythagorean_theorem_sides);
-                } else if(megaDatabase.geometry_oge_full_database && (txt.includes("площад") || txt.includes("треугол") || txt.includes("трапец"))) {
-                    addBotMessage(megaDatabase.geometry_oge_full_database.triangle_area_general_formula + "\n\n" + megaDatabase.geometry_oge_full_database.trapezoid_area_calculation);
-                } else if(megaDatabase.geometry_oge_full_database && (txt.includes("синус") || txt.includes("косинус") || txt.includes("тригоном"))) {
-                    addBotMessage(megaDatabase.geometry_oge_full_database.sine_angle_definition + "\n\n" + megaDatabase.geometry_oge_full_database.basic_trigonometric_identity);
-                } else if(megaDatabase.oge_russian_language_vault && (txt.includes("корен") || txt.includes("чередов") || txt.includes("гар") || txt.includes("гор"))) {
-                    addBotMessage(megaDatabase.oge_russian_language_vault.roots_alternation_rules + "\n\n" + megaDatabase.oge_russian_language_vault.root_gar_gor_rule + "\n\n" + megaDatabase.oge_russian_language_vault.root_rast_rasch_ros_rule);
-                } else if(megaDatabase.oge_russian_language_vault && (txt.includes("запят") || txt.includes("причаст") || txt.includes("деепричаст"))) {
-                    addBotMessage(megaDatabase.oge_russian_language_vault.punctuation_comma_rules + "\n\n" + megaDatabase.oge_russian_language_vault.participle_turn_commas);
-                } else if(megaDatabase.physics_formulas_oge_vault && (txt.includes("физик") || txt.includes("ньютон") || txt.includes("закон"))) {
-                    addBotMessage(megaDatabase.physics_formulas_oge_vault.newtons_first_law + "\n\n" + megaDatabase.physics_formulas_oge_vault.newtons_second_law + "\n\n" + megaDatabase.physics_formulas_oge_vault.newtons_third_law);
-                } else if(megaDatabase.physics_formulas_oge_vault && (txt.includes("ом") || txt.includes("ток") || txt.includes("сопротивл"))) {
-                    addBotMessage(megaDatabase.physics_formulas_oge_vault.ohm_law_for_circuit + "\n\n" + megaDatabase.physics_formulas_oge_vault.electrical_resistance);
-                } else if(megaDatabase.oge_social_studies_vault && (txt.includes("обществ") || txt.includes("государств") || txt.includes("демократ") || txt.includes("закон"))) {
-                    addBotMessage(megaDatabase.oge_social_studies_vault.state_definition_info + "\n\n" + megaDatabase.oge_social_studies_vault.state_main_features + "\n\n" + megaDatabase.oge_social_studies_vault.democracy_features);
-                } else if(megaDatabase.oge_social_studies_vault && (txt.includes("эконом") || txt.includes("рынок") || txt.includes("инфляц"))) {
-                    addBotMessage(megaDatabase.oge_social_studies_vault.economic_systems_info + "\n\n" + megaDatabase.oge_social_studies_vault.market_economy_features + "\n\n" + megaDatabase.oge_social_studies_vault.inflation_definition);
-                } else if(megaDatabase.oge_geography_vault && (txt.includes("географ") || txt.includes("координат") || txt.includes("широт") || txt.includes("долгот"))) {
-                    addBotMessage(megaDatabase.oge_geography_vault.geographic_coordinates + "\n\n" + megaDatabase.oge_geography_vault.latitude_definition + "\n\n" + megaDatabase.oge_geography_vault.longitude_definition);
-                } else if(megaDatabase.oge_geography_vault && (txt.includes("время") || txt.includes("пояс") || txt.includes("карт") || txt.includes("масштаб"))) {
-                    addBotMessage(megaDatabase.oge_geography_vault.scale_map_types + "\n\n" + megaDatabase.oge_geography_vault.time_zones_russia + "\n\n" + megaDatabase.oge_geography_vault.time_zones_calculation);
-                } else if(megaDatabase.emergency_mchs_protocol && (txt.includes("мчс") || txt.includes("сирен") || txt.includes("бпла") || txt.includes("тревог"))) {
-                    addBotMessage(megaDatabase.emergency_mchs_protocol.civil_defense_alert + "\n" + megaDatabase.emergency_mchs_protocol.evacuation_protocol + "\n" + megaDatabase.emergency_mchs_protocol.uav_danger_actions + "\n" + megaDatabase.emergency_mchs_protocol.uav_fragments_ban + "\nВызов экстренных служб: " + megaDatabase.emergency_mchs_protocol.emergency_call_112);
-                } else {
-                    addBotMessage("Запрос принят! Сканирую базу данных database.json... Для точного ответа используй ключевые слова: дискриминант, теорема виета, Пифагор, площадь, синус, корни, запятые, законы Ньютона, закон Ома, государство, рынок, координаты, масштаб или МЧС 🛡️");
-                }
-            }, 500);
-        }
-        function sendSchoolMessage() {
-            const inp = document.getElementById("school-input"); const txt = inp.value.trim(); if(!txt) return;
-            const box = document.getElementById("school-messages"); const m = document.createElement("div"); m.className = "msg user";
-            m.innerHTML = `<b>Ученик:</b> ${txt}`; box.appendChild(m); inp.value = ""; box.scrollTop = box.scrollHeight;
+                if(txt.includes("бля") || txt.includes("хуй") || txt.includes("пизд")) { addBotMessage("Мат запрещен!"); return; }
+                if(!megaDatabase.oge_algebra_vault) { addBotMessage("База данных еще синхронизируется, подожди 5 секунд..."); return; }
+                if(txt.includes("дискрим") || txt.includes("уравнен")) { addBotMessage(megaDatabase.oge_algebra_vault.discriminant_formula + "\n" + megaDatabase.oge_algebra_vault.d_positive_info + "\n" + megaDatabase.oge_algebra_vault.d_positive_x1 + "\n" + megaDatabase.oge_algebra_vault.d_positive_x2); }
+                else if(txt.includes("виет")) { addBotMessage(megaDatabase.oge_algebra_vault.vieta_theorem_sum + "\n" + megaDatabase.oge_algebra_vault.vieta_theorem_product); }
+                else if(txt.includes("шпор") || txt.includes("фсу") || txt.includes("квадрат")) { addBotMessage(megaDatabase.oge_algebra_vault.fsu_square_sum + "\n" + megaDatabase.oge_algebra_vault.fsu_square_diff + "\n" + megaDatabase.oge_algebra_vault.fsu_diff_squares); }
+                else if(txt.includes("пифагор") || txt.includes("катет") || txt.includes("гипотенуз")) { addBotMessage(megaDatabase.oge_geometry_vault.pythagoras_theorem + "\n" + megaDatabase.oge_geometry_vault.pythagoras_formula + "\n" + megaDatabase.oge_geometry_vault.pythagoras_hypotenuse); }
+                else if(txt.includes("площад") || txt.includes("треугол") || txt.includes("трапец")) { addBotMessage(megaDatabase.oge_geometry_vault.triangle_area_formula + "\n" + megaDatabase.oge_geometry_vault.rectangle_area_formula + "\n" + megaDatabase.oge_geometry_vault.trapezoid_area_formula); }
+                else if(txt.includes("синус") || txt.includes("косинус")) { addBotMessage(megaDatabase.oge_geometry_vault.sine_angle_definition + "\n" + megaDatabase.oge_geometry_vault.cosine_angle_definition + "\n" + megaDatabase.oge_geometry_vault.trigonometric_identity); }
+                else if(txt.includes("корен") || txt.includes("гар") || txt.includes("гор") || txt.includes("чередов")) { addBotMessage(megaDatabase.oge_russian_vault.root_gar_gor_rule + "\n" + megaDatabase.oge_russian_vault.root_rast_rasch_ros + "\n" + megaDatabase.oge_russian_vault.root_lag_lozh_rule); }
+                else if(txt.includes("запят") || txt.includes("причаст") || txt.includes("деепричаст")) { addBotMessage(megaDatabase.oge_russian_vault.punctuation_commas + "\n" + megaDatabase.oge_russian_vault.participle_commas + "\n" + megaDatabase.oge_russian_vault.adverbial_commas); }
+                else if(txt.includes("ньютон") || txt.includes("закон")) { addBotMessage(megaDatabase.oge_physics_vault.newtons_first_law + "\n" + megaDatabase.oge_physics_vault.newtons_second_law + "\n" + megaDatabase.oge_physics_vault.newtons_third_law); }
+                else if(txt.includes("ом") || txt.includes("ток") || txt.includes("сопротивл")) { addBotMessage(megaDatabase.oge_physics_vault.ohm_law_for_circuit + "\n" + megaDatabase.oge_physics_vault.electrical_resistance); }
+                else if(txt.includes("мчс") || txt.includes("сирен") || txt.includes("бпла") || txt.includes("тревог")) { addBotMessage(megaDatabase.emergency_mchs_protocol.global_alert_sound + "\n" + megaDatabase.emergency_mchs_protocol.air_alarm_evacuation + "\n" + megaDatabase.emergency_mchs_protocol.uav_attack_danger + "\n" + megaDatabase.emergency_mchs_protocol.unknown_items_ban + "\nВызов: " + megaDatabase.emergency_mchs_protocol.emergency_phone); }
+                else { addBotMessage("Информация ищется... Напиши точнее: дискриминант, виета, пифагор, площадь, косинус, корни, законы, ом или мчс 🛡️"); }
+            }, 400);
         }
     </script>
 </body>
